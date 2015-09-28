@@ -4,16 +4,35 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 
 
 public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent e)
+    {
+        int action=e.getAction();
+
+        switch (action)
+        {
+            case MotionEvent.ACTION_MOVE:
+            {
+                DibujoView dibujo=new DibujoView(this);
+                dibujo.setXY(e.getX(),e.getY());
+                setContentView(dibujo);
+                break;
+            }
+        }
+        return true;
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
