@@ -1,21 +1,38 @@
 package com.future.ditmar.drawingexample;
 
+import android.renderscript.Float4;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+import java.text.NumberFormat;
 
 
-public class MainActivity extends ActionBarActivity {
-
+public class MainActivity extends ActionBarActivity implements View.OnClickListener{
+    private DibujoView dibujo;
+    private float scale;
+    private EditText txt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        scale=1;
+        dibujo=new DibujoView(this);
+        LoadComponents();
     }
-
+    private void LoadComponents()
+    {
+        txt=(EditText)this.findViewById(R.id.escala);
+        Button btn=(Button)this.findViewById(R.id.button);
+        btn.setOnClickListener(this);
+        //String txtText= txt.getText().toString();
+    }
     @Override
     public boolean onTouchEvent(MotionEvent e)
     {
@@ -25,7 +42,6 @@ public class MainActivity extends ActionBarActivity {
         {
             case MotionEvent.ACTION_MOVE:
             {
-                DibujoView dibujo=new DibujoView(this);
                 dibujo.setXY(e.getX(),e.getY());
                 setContentView(dibujo);
                 break;
@@ -53,5 +69,20 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id=view.getId();
+        switch (id)
+        {
+            case R.id.button:
+            {
+                String data=txt.getText().toString();
+                float scale =Float.parseFloat(data);
+                dibujo.setScale(scale);
+                break;
+            }
+        }
     }
 }
